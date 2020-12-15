@@ -27,6 +27,7 @@ dateInput.min = '2015-01-01' //the first APOD
 document.body.appendChild(mainContainer);
 mainContainer.appendChild(title);
 mainContainer.appendChild(dateInput);
+mainContainer.appendChild(document.createElement("br"))
 mainContainer.appendChild(btn);
 mainContainer.appendChild(document.createElement("br"))
 mainContainer.appendChild(document.createElement("br"))
@@ -40,18 +41,18 @@ mainContainer.appendChild(originalAPODLink);
     //title
 title.style.color = "white"
 title.style.fontSize = "xx-large"
-title.style.alignContent = "center" //why is centering not working? for 'alignContent' and 'alignItems'
+title.style.textAlign = "center" //does not work with 'alignContent' or 'alignItems'
     //button
-btn.style.alignItems = "center"
+btn.style.textAlign = "center"
     //image
-image.style.alignItems = "center"
+image.style.textAlign = "center"
     //info
 info.style.color = "white"
     //link
 originalAPODLink.style.color = "blue"
     //overall
 document.body.style.backgroundColor = "black"
-mainContainer.style.alignItems = "center"
+mainContainer.style.textAlign = "center"
 
 const myKey = 'cUU3PA1YbAaGq0efdLLkQNKFaMYWIJSyWo8PefbF'
 
