@@ -6,12 +6,15 @@ const btn = document.createElement('BUTTON');
 const image = document.createElement('img')
 const info = document.createElement('div')
 const dateInput = document.createElement('INPUT');
-const originalAPODLink = document.createElement('div')
 
-let officialSource = "Click here to go to NASA's official APOD website."
-originalAPODLink.innerText = officialSource.link('https://apod.nasa.gov/')
+const originalAPODLink = document.createElement('a')
+
 
     //props
+let officialSource = "Click here to go to NASA's official APOD website."
+originalAPODLink.href = 'https://apod.nasa.gov/';
+originalAPODLink.innerText = officialSource;
+
 btn.innerHTML = "CLICK ME"
 dateInput.type = 'date'
 const todayInitialForm = new Date();
