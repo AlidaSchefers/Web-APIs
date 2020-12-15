@@ -2,8 +2,6 @@ window.onload = () => {
     startPageElements()
 }
 
-
-
 function startPageElements() {
     //create elements
     const postDiv = document.createElement('div')
@@ -18,19 +16,18 @@ function startPageElements() {
     getUserInputBox.min = 1
     getUserInputBox.max = 2000
 
-    getUserButton.className = "buttons"
+    getUserButton.className = "buttons" //what is the purpose of assigning a class name?
     getUserButton.innerText = "Get User Data"
     getUserButton.onclick = getUserRequest
-    //when it is getUserRequest() with the parantheses, says call it right now. w/o (), just say to reference it.
+    //when it is getUserRequest() with the parantheses, says call it right now when the line is initially read. w/o (), just say to reference it.
 
+    getUserInputBox.className = "text-input"
+    getUserInputBox.placeholder = "Enter a user's ID to search"
     
     //inserting element properties/data
     postDiv.id = "postDiv"
     getDiv.id = "getDiv"
     displayDiv.id = "displayDiv"
-    
-    getUserInputBox.className = "text-input"
-    getUserInputBox.placeholder = "Enter a user's ID to search"
 
     //append to the DOM
     document.body.appendChild(postDiv)
@@ -45,14 +42,15 @@ function startPageElements() {
 
 function getUserRequest() {
 
-    const children = this.parentElement.children
+    const children = this.parentElement.children //??
+    console.log(children)
 
     let userID;
     let minID
     let maxID
 
-    for (const element of children) {
-        if (element.type === "number") //only need {} if more than one line in if code block
+    for (const element of children) { //is this for loop necessary? is there another way since we are only looking at the UserInput element?
+        if (element.type === "number")
             userID = element.value
             minID = element.min
             maxID = element.min
