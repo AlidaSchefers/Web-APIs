@@ -11,7 +11,6 @@ function startPageElements() {
     const getUserInputBox = document.createElement("input")
     const getUserButton = document.createElement("button")
 
-
     getUserInputBox.type = 'number'
     getUserInputBox.min = 1
     getUserInputBox.max = 2000
@@ -37,6 +36,38 @@ function startPageElements() {
     getDiv.appendChild(getUserInputBox)
     getDiv.appendChild(getUserButton)
 
+
+//FOR POST METHOD:
+    //create elements
+        //elements the user will input
+    const postUserInputBoxName = document.createElement("input")
+    const postUserInputBoxEmail = document.createElement("input")
+    const postUserInputBoxGender = document.createElement("input")
+    const postUserInputBoxStatus = document.createElement("select")
+    postUserInputBoxStatus.add("Active")
+    postUserInputBoxStatus.add("Inactive")
+    
+    postUserInputBoxName.placeholder = "New user's name"
+    postUserInputBoxEmail.placeholder = "New user's email"
+    postUserInputBoxGender.placeholder = "New user's gender (e.g. Female)"
+
+
+    const postUserButton = document.createElement("button")
+
+    //name, email, gender, status
+    //when created 
+
+    //insert element properties/data
+    postUserInputBoxName.id = "postUserInputBoxName"
+    postUserInputBoxEmail.id = "postUserInputBoxEmail"
+    postUserInputBoxGender.id = "postUserInputBoxGender"
+    postUserInputBoxStatus.id = "postUserInputBoxStatus"
+
+    //append to the DOM
+    postDiv.appendChild(postUserInputBoxName)
+    postDiv.appendChild(postUserInputBoxEmail)
+    postDiv.appendChild(postUserInputBoxGender)
+    postDiv.appendChild(postUserInputBoxStatus)
 
 }
 
@@ -69,7 +100,7 @@ function getUserRequest() {
     //better to use than .id to refer to smth.
 
     const endpoint = "https://gorest.co.in/public-api/users/" + userID
-    const xhr = new XMLHttpRequest()
+    const xhr = new XMLHttpRequest() //what does xhr stand for?
 
     xhr.open("GET", endpoint)
 
@@ -81,3 +112,20 @@ function getUserRequest() {
 
     xhr.send()
 }
+
+//POST - creating a user
+//the following code was originally based off https://www.codegrepper.com/code-examples/perl/xmlhttprequest+post+example
+
+var yhr = new XMLHttpRequest();
+yhr.open("POST", 'https://gorest.co.in/public-api/users/', true); //what is 'true'? i assume it's the same as the default
+yhr.setRequestHeader("Content-Type", "application/json");
+
+
+
+
+// yhr.onreadystatechange = function() { // Call a function when the state changes.
+//     if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
+//         // Request finished. Do processing here.
+//     }
+// }
+yhr.send("name=Hello&id=world");
