@@ -2,6 +2,8 @@ window.onload = () => {
     startPageElements()
 }
 
+const myAuthorizationAPIToken = undefined //insert your unique token here as a string
+
 function startPageElements() {
     //create elements
     const getDiv = document.createElement('div')
@@ -101,6 +103,7 @@ function getUserRequest() {
         const parsedData = JSON.parse(rawRes)
         console.log(parsedData)
     }
+    xhr.setRequestHeader("Authorization", `Bearer ${myAuthorizationAPIToken}`);
 
     xhr.send()
 }
@@ -120,6 +123,7 @@ function postUserRequest() {
     // const xhr = new XMLHttpRequest();
     // xhr.open("POST", 'https://gorest.co.in/public-api/users/'); //what is 'true'? i assume it's the same as the default
     // xhr.setRequestHeader("Content-Type", "application/json");
+    // xhr.setRequestHeader("Authorization", `Bearer ${myAuthorizationAPIToken}`);
     // xhr.send(jsonNewUserData)
 
 
