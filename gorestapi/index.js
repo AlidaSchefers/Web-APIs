@@ -2,7 +2,7 @@ window.onload = () => {
     startPageElements()
 }
 
-const myAuthorizationAPIToken = undefined //insert your unique token here as a string
+const myAuthorizationAPIToken = "33cfa1dd481de0403ff4b4b802711128f9789edbad5fe43b45e6f03afac26e34"
 
 function startPageElements() {
     //create elements
@@ -16,10 +16,20 @@ function startPageElements() {
         //POST
     const postUserInputBoxName = document.createElement("input")
     const postUserInputBoxEmail = document.createElement("input")
+    const postUserSelectGender = document.createElement("select")
+    const postUserSelectStatus = document.createElement("select")
+
+    const femaleGenderOption = document.createElement("option")
+    const maleGenderOption = document.createElement("option")
+    const ActiveStatusOption = document.createElement("option")
+    const InactiveStatusOption = document.createElement("option")
+
     const postUserButton = document.createElement("button")
 
-    postUserInputBoxName.id = "name"
-    postUserInputBoxEmail.id = "email"
+    postUserInputBoxName.name = "name"
+    postUserInputBoxEmail.name = "email"
+    postUserSelectGender.name = "gender"
+    postUserSelectStatus.name = "status"
 
         //GET
     getUserInputBox.placeholder = "Enter a user's ID to search"
@@ -30,6 +40,7 @@ function startPageElements() {
 
     getUserButton.className = "buttons" //what is the purpose of assigning a class name?
     getUserButton.innerText = "Get User Data"
+
     getUserButton.onclick = getUserRequest //when it is getUserRequest() with the parantheses, says call it right now when the line is initially read. w/o (), just say to reference it.
 
     // getUserInputBox.className = "text-input"
@@ -38,6 +49,16 @@ function startPageElements() {
     postUserInputBoxName.placeholder = "New user's name"
     postUserInputBoxEmail.placeholder = "New user's email"
 
+    femaleGenderOption.text = "Female"
+    postUserSelectGender.add(femaleGenderOption)
+    maleGenderOption.text = "Male"
+    postUserSelectGender.add(maleGenderOption)
+
+    ActiveStatusOption.text = "Active"
+    postUserSelectStatus.add(ActiveStatusOption)
+    InactiveStatusOption.text = "Inactive"
+    postUserSelectStatus.add(InactiveStatusOption)
+    
     postUserButton.innerText = "Create New User"
     postUserButton.onclick = postUserRequest
     
@@ -61,6 +82,8 @@ function startPageElements() {
         //POST
     postDiv.appendChild(postUserInputBoxName)
     postDiv.appendChild(postUserInputBoxEmail)
+    postDiv.appendChild(postUserSelectGender)
+    postDiv.appendChild(postUserSelectStatus)
     postDiv.appendChild(postUserButton)
 
 }
@@ -109,22 +132,22 @@ function getUserRequest() {
 }
 
 function postUserRequest() {
-    const children = this.parentElement.children //??
-    // console.log(children)
+    const children = this.parentElement.children
+    console.log(children)
     let newUserData = {}
-    for (const element of children) { //is this for loop necessary? is there another way since we are only looking at the UserInput element?
-        if (element.type === "text")
-            newUserData[element.id] = element.value
+    for (const element of children) {
+        if (element.type !== "submit") //everything except the button
+            newUserData[element.name] = element.value
     }
     console.log(newUserData)
     
     const jsonNewUserData = JSON.stringify(newUserData)
 
-    // const xhr = new XMLHttpRequest();
-    // xhr.open("POST", 'https://gorest.co.in/public-api/users/'); //what is 'true'? i assume it's the same as the default
-    // xhr.setRequestHeader("Content-Type", "application/json");
-    // xhr.setRequestHeader("Authorization", `Bearer ${myAuthorizationAPIToken}`);
-    // xhr.send(jsonNewUserData)
+    const xhr = new XMLHttpRequest();
+    xhr.open("POST", 'https://gorest.co.in/public-api/users/'); //what is 'true'? i assume it's the same as the default
+    xhr.setRequestHeader("Content-Type", "application/json");
+    xhr.setRequestHeader("Authorization", `Bearer ${myAuthorizationAPIToken}`);
+    xhr.send(jsonNewUserData)
 
 
     // xhr.send("name=Hello&id=world"); //why is it in this format?
