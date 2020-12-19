@@ -2,13 +2,14 @@ window.onload = () => {
     startPageElements()
 }
 
-const myAuthorizationAPIToken = "33cfa1dd481de0403ff4b4b802711128f9789edbad5fe43b45e6f03afac26e34"
+const myAuthorizationAPIToken = myToken //obtain your own token at the website https://gorest.co.in/
 
 function startPageElements() {
     //create elements
     const getDiv = document.createElement('div')
     const postDiv = document.createElement('div')
-    const displayDiv = document.createElement('div')
+    // const displayDiv = document.createElement('div')
+    const deleteDiv = document.createElement('div')
     
         //GET
     const getUserInputBox = document.createElement("input")
@@ -31,6 +32,10 @@ function startPageElements() {
     postUserSelectGender.name = "gender"
     postUserSelectStatus.name = "status"
 
+        //DELETE
+    const deleteUserInputBox = document.createElement("input")
+    const deleteUserButton = document.createElement("button")
+
         //GET
     getUserInputBox.placeholder = "Enter a user's ID to search"
 
@@ -43,7 +48,6 @@ function startPageElements() {
 
     getUserButton.onclick = getUserRequest //when it is getUserRequest() with the parantheses, says call it right now when the line is initially read. w/o (), just say to reference it.
 
-    // getUserInputBox.className = "text-input"
 
         //POST
     postUserInputBoxName.placeholder = "New user's name"
@@ -61,19 +65,32 @@ function startPageElements() {
     
     postUserButton.innerText = "Create New User"
     postUserButton.onclick = postUserRequest
-    
+
+        //DELETE
+    deleteUserInputBox.placeholder = "Enter a user's ID to search"
+    deleteUserInputBox.type = 'number'
+    deleteUserInputBox.min = 1
+    deleteUserInputBox.max = 2000
+
+    deleteUserButton.innerText = "Delete User Data"
+
+    deleteUserButton.onclick = deleteUserRequest
+
+
     //ALL THREE
         //inserting element properties/data
     getDiv.id = "getDiv"
     postDiv.id = "postDiv"
-    displayDiv.id = "displayDiv"
+    // displayDiv.id = "displayDiv"
 
         //append to the DOM
     document.body.appendChild(getDiv)
     document.body.appendChild(document.createElement('br'))
     document.body.appendChild(postDiv)
     document.body.appendChild(document.createElement('br'))
-    document.body.appendChild(displayDiv)
+    // document.body.appendChild(displayDiv)
+    // document.body.appendChild(document.createElement('br'))
+    document.body.appendChild(deleteDiv)
 
         //GET
     getDiv.appendChild(getUserInputBox)
@@ -85,6 +102,10 @@ function startPageElements() {
     postDiv.appendChild(postUserSelectGender)
     postDiv.appendChild(postUserSelectStatus)
     postDiv.appendChild(postUserButton)
+
+        //DELETE
+    deleteDiv.appendChild(deleteUserInputBox)
+    deleteDiv.appendChild(deleteUserButton)
 
 }
 
@@ -152,4 +173,36 @@ function postUserRequest() {
 
     // xhr.send("name=Hello&id=world"); //why is it in this format?
 
+}
+
+// function patchUserRequest() {
+
+// }
+
+function deleteUserRequest() {
+    const children = this.parentElement.children //??
+    console.log(children)
+
+    let userID
+    let minID
+    let maxID
+
+    for (const element of children) { //is this for loop necessary? is there another way since we are only looking at the UserInput element?
+        if (element.type === "number")
+            userID = element.value
+            minID = element.min
+            maxID = element.min
+    }
+
+    if (userID === "")
+        return alert("Invalid ID Entered")
+    else if (userID < minID || userID > maxID)
+        return alert(`User ID must be between ${minID} & ${maxID}`)
+
+    const endpoint = "https://gorest.co.in/public-api/users/" + userID
+
+    const xhr = new XMLHttpRequest();
+    xhr.open("DELETE", endpoint);
+    xhr.setRequestHeader("Authorization", `Bearer ${myAuthorizationAPIToken}`);
+    xhr.send()
 }
