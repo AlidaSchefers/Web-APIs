@@ -2,41 +2,17 @@ window.onload = () => {
     startPageElements()
 }
 
-const myAuthorizationAPIToken = myToken //obtain your own token at the website https://gorest.co.in/
+const myAuthorizationAPIToken = "33cfa1dd481de0403ff4b4b802711128f9789edbad5fe43b45e6f03afac26e34" //obtain your own token at the website https://gorest.co.in/
 
 function startPageElements() {
-    //create elements
+
+    //GET
+        //create elements
     const getDiv = document.createElement('div')
-    const postDiv = document.createElement('div')
-    // const displayDiv = document.createElement('div')
-    const deleteDiv = document.createElement('div')
     
-        //GET
     const getUserInputBox = document.createElement("input")
     const getUserButton = document.createElement("button")
-        //POST
-    const postUserInputBoxName = document.createElement("input")
-    const postUserInputBoxEmail = document.createElement("input")
-    const postUserSelectGender = document.createElement("select")
-    const postUserSelectStatus = document.createElement("select")
-
-    const femaleGenderOption = document.createElement("option")
-    const maleGenderOption = document.createElement("option")
-    const ActiveStatusOption = document.createElement("option")
-    const InactiveStatusOption = document.createElement("option")
-
-    const postUserButton = document.createElement("button")
-
-    postUserInputBoxName.name = "name"
-    postUserInputBoxEmail.name = "email"
-    postUserSelectGender.name = "gender"
-    postUserSelectStatus.name = "status"
-
-        //DELETE
-    const deleteUserInputBox = document.createElement("input")
-    const deleteUserButton = document.createElement("button")
-
-        //GET
+        //element properties
     getUserInputBox.placeholder = "Enter a user's ID to search"
 
     getUserInputBox.type = 'number'
@@ -48,8 +24,28 @@ function startPageElements() {
 
     getUserButton.onclick = getUserRequest //when it is getUserRequest() with the parantheses, says call it right now when the line is initially read. w/o (), just say to reference it.
 
+    getDiv.id = "getDiv"
 
-        //POST
+    //POST
+        //create elements
+    const postDiv = document.createElement('div')
+
+    const postUserInputBoxName = document.createElement("input")
+    const postUserInputBoxEmail = document.createElement("input")
+    const postUserSelectGender = document.createElement("select")
+    const postUserSelectStatus = document.createElement("select")
+    const postUserButton = document.createElement("button")
+
+    const femaleGenderOption = document.createElement("option")
+    const maleGenderOption = document.createElement("option")
+    const ActiveStatusOption = document.createElement("option")
+    const InactiveStatusOption = document.createElement("option")
+
+    postUserInputBoxName.name = "name"
+    postUserInputBoxEmail.name = "email"
+    postUserSelectGender.name = "gender"
+    postUserSelectStatus.name = "status"
+
     postUserInputBoxName.placeholder = "New user's name"
     postUserInputBoxEmail.placeholder = "New user's email"
 
@@ -66,29 +62,29 @@ function startPageElements() {
     postUserButton.innerText = "Create New User"
     postUserButton.onclick = postUserRequest
 
-        //DELETE
+    postDiv.id = "postDiv"
+
+    //DELETE
+    const deleteDiv = document.createElement('div')
+
+    const deleteUserInputBox = document.createElement("input")
+    const deleteUserButton = document.createElement("button")
+
     deleteUserInputBox.placeholder = "Enter a user's ID to search"
     deleteUserInputBox.type = 'number'
     deleteUserInputBox.min = 1
     deleteUserInputBox.max = 2000
 
     deleteUserButton.innerText = "Delete User Data"
-
     deleteUserButton.onclick = deleteUserRequest
 
-
-    //ALL THREE
-        //inserting element properties/data
-    getDiv.id = "getDiv"
-    postDiv.id = "postDiv"
-    // displayDiv.id = "displayDiv"
-
+    //APPENDING
         //append to the DOM
     document.body.appendChild(getDiv)
     document.body.appendChild(document.createElement('br'))
     document.body.appendChild(postDiv)
     document.body.appendChild(document.createElement('br'))
-    // document.body.appendChild(displayDiv)
+    // document.body.appendChild(displayDiv) //why a displayDiv?
     // document.body.appendChild(document.createElement('br'))
     document.body.appendChild(deleteDiv)
 
@@ -106,24 +102,21 @@ function startPageElements() {
         //DELETE
     deleteDiv.appendChild(deleteUserInputBox)
     deleteDiv.appendChild(deleteUserButton)
-
 }
 
 function getUserRequest() {
 
-    const children = this.parentElement.children //??
-    console.log(children)
+    const children = this.parentElement.children
 
     let userID;
     let minID
     let maxID
 
-    for (const element of children) { //is this for loop necessary? is there another way since we are only looking at the UserInput element?
+    for (const element of children) {
         if (element.type === "number")
             userID = element.value
             minID = element.min
             maxID = element.min
-        // if (element)
     }
     console.log(userID)
 
@@ -138,7 +131,7 @@ function getUserRequest() {
     //better to use than .id to refer to smth.
 
     const endpoint = "https://gorest.co.in/public-api/users/" + userID
-    const xhr = new XMLHttpRequest() //what does xhr stand for?
+    const xhr = new XMLHttpRequest()
 
     xhr.open("GET", endpoint)
 
@@ -180,7 +173,7 @@ function postUserRequest() {
 // }
 
 function deleteUserRequest() {
-    const children = this.parentElement.children //??
+    const children = this.parentElement.children
     console.log(children)
 
     let userID
