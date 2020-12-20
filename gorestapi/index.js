@@ -1,3 +1,5 @@
+//this JS does NOT include the PUT method! DO NOT merge with main! if you do, you will LOSE the PUT method!!
+
 window.onload = () => {
     startPageElements()
 }
