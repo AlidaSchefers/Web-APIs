@@ -98,6 +98,7 @@ function startPageElements() {
 
     const putUserButton = document.createElement('button')
     putUserButton.innerText = "Update User Data"
+    putUserButton.onclick = putUserRequest
 
     putUserCurrentName.placeholder = "User's Current Name"
     putUserCurrentEmail.placeholder = "User's Current Email"
@@ -166,6 +167,9 @@ function startPageElements() {
 function getUserRequest() {
 
     const children = this.parentElement.children
+    //use the 'this' keyword with '.onSOMETHING' event listener function
+    //logs the element itself when using the keyword
+    //better to use than .id to refer to smth.
 
     let userID;
     let minID
@@ -177,17 +181,11 @@ function getUserRequest() {
             minID = element.min
             maxID = element.min
     }
-    console.log(userID)
 
     if (userID === "")
         return alert("Invalid ID Entered")
     else if (userID < minID || userID > maxID)
         return alert(`User ID must be between ${minID} & ${maxID}`)
-
-    //console.log(this.parentElement) 
-    //use the 'this' keyword with '.onSOMETHING' event listener function
-    //logs the element itself when using the keyword
-    //better to use than .id to refer to smth.
 
     const endpoint = "https://gorest.co.in/public-api/users/" + userID
     const xhr = new XMLHttpRequest()
@@ -197,7 +195,8 @@ function getUserRequest() {
     xhr.onload = () => {
         const rawRes = xhr.responseText
         const parsedData = JSON.parse(rawRes)
-        console.log(parsedData)
+        // console.log(`User ${userID}'s data:`)
+        // console.log(parsedData)
     }
     xhr.setRequestHeader("Authorization", `Bearer ${myAuthorizationAPIToken}`);
 
@@ -206,13 +205,13 @@ function getUserRequest() {
 
 function postUserRequest() {
     const children = this.parentElement.children
-    console.log(children)
     let newUserData = {}
     for (const element of children) {
         if (element.type !== "submit") //everything except the button
             newUserData[element.name] = element.value
     }
-    console.log(newUserData)
+    // console.log("New user's data:")
+    // console.log(newUserData)
     
     const jsonNewUserData = JSON.stringify(newUserData)
 
@@ -229,7 +228,7 @@ function postUserRequest() {
 
 function putUserDisplayCurrentData() {
     const children = this.parentElement.children
-    console.log(children)
+    const parent = this.parentElement
     let userID;
     let minID
     let maxID
@@ -239,15 +238,12 @@ function putUserDisplayCurrentData() {
             minID = element.min
             maxID = element.min
     }
-    console.log(userID)
 
     if (userID === "")
         return alert("Invalid ID Entered")
     else if (userID < minID || userID > maxID) {
         return alert(`User ID must be between ${minID} & ${maxID}`)
     }
-
-    // const putUserCurrentName =
 
     //XMLHttpRequest section
     const endpoint = "https://gorest.co.in/public-api/users/" + userID
@@ -258,67 +254,52 @@ function putUserDisplayCurrentData() {
     xhr.onload = () => {
         const rawRes = xhr.responseText
         const parsedData = JSON.parse(rawRes) //for some reason can't use parsedData like I did in the GET method function??
-        console.log(parsedData)
-
         //fill in all the boxes with the current user data 
-        // console.log("children:")
-        // console.log(children)
         for (const element of children) {
-            if (element.name === "name")
-                // console.log("this is NAME element")
-                element.defaultValue = parsedData.name
+            if (element.name === "name" || element.name === "email")
+                element.defaultValue = parsedData.data[element.name]
+            if (element.name === "gender" || element.name === "status") {
+                for (const chld of element.children) {
+                    if (chld.text === parsedData.data[element.name]) { //if the child option object's text is the same as the gender/status's value in the JSON that was read
+                        chld.selected = "true" 
+                        //with the 'selected' attribute, it is "option object"DOTselected. 
+                        //This attribute is the select object equivalent of input object's .defaultValue
+                    }
+                }
+            }
         }
-
-
-
-
-
     }
     xhr.setRequestHeader("Authorization", `Bearer ${myAuthorizationAPIToken}`);
-
-    xhr.send()
-}
-
-
-function putUserDisplayCurrentDataJSONTEST(userID) {
-    
-    const endpoint = "https://gorest.co.in/public-api/users/" + userID
-    const xhr = new XMLHttpRequest()
-
-    xhr.open("GET", endpoint)
-
-    xhr.onload = () => {
-        const rawRes = xhr.responseText
-        const parsedData = JSON.parse(rawRes)
-    }
-    xhr.setRequestHeader("Authorization", `Bearer ${myAuthorizationAPIToken}`);
-
-    xhr.send()
-}
-
-function putUserDisplayCurrentDataJSON(userID) {
-    const endpoint = "https://gorest.co.in/public-api/users/" + userID
-    const xhr = new XMLHttpRequest()
-
-    xhr.open("GET", endpoint)
-
-    xhr.onload = () => {
-        const rawRes = xhr.responseText
-        const parsedData = JSON.parse(rawRes)
-        console.log(parsedData)
-    }
-    xhr.setRequestHeader("Authorization", `Bearer ${myAuthorizationAPIToken}`);
-
     xhr.send()
 }
 
 function putUserRequest() {
+    let userID
+
+    const children = this.parentElement.children
+    let putUserData = {}
+    for (const element of children) {
+        if (element.type !== 'submit' && Boolean(element.type) && Boolean(element.name)) { //excludes the buttons, breaks, and the userID input respectively
+            putUserData[element.name] = element.value
+        }
+        if (element.type === "number") {
+            userID = element.value
+        }
+    }
+
+    const jsonPutUserData = JSON.stringify(putUserData)
+    const endpoint = "https://gorest.co.in/public-api/users/" + userID
+
+    const xhr = new XMLHttpRequest();
+    xhr.open("PUT", endpoint); //what is 'true'? i assume it's the same as the default
+    xhr.setRequestHeader("Content-Type", "application/json");
+    xhr.setRequestHeader("Authorization", `Bearer ${myAuthorizationAPIToken}`);
+    xhr.send(jsonPutUserData)
 
 }
 
 function deleteUserRequest() {
     const children = this.parentElement.children
-    console.log(children)
 
     let userID
     let minID
