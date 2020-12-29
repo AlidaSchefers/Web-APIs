@@ -176,7 +176,7 @@ function getUserRequest() {
     let maxID
 
     for (const element of children) {
-        if (element.type === "number") {
+        if (element.type === "number") { //need to have the {} here! If they are not here, only userID = element.value is included in the if statement code block.
             userID = element.value
             minID = element.min
             maxID = element.max
@@ -234,7 +234,7 @@ function putUserDisplayCurrentData() {
     let minID
     let maxID
     for (const element of children) {
-        if (element.type === "number") { //need to h
+        if (element.type === "number") { //need to have the {} here! If they are not here, only userID = element.value is included in the if statement code block.
             userID = element.value
             minID = element.min
             maxID = element.max
@@ -261,7 +261,8 @@ function putUserDisplayCurrentData() {
             // if ( (element.name === "name" || element.name === "email") && element.value.trim() === "")
             if (element.name === "name" || element.name === "email")
                 element.value = parsedData.data[element.name] //use .value instead of .defaultValue
-                    //with .defaultValue, if you 
+                    //with .defaultValue, if you edit the input at all, it will not regenerate the input box with new info when you put in a new user ID and click the button. 
+                    //with .value, we don't have that problem. the fields will always be regenerated when the user clicks the "Display User's Current Data" button.
                 //maybe add a clear button as we change the users. like "clear user data"
             if (element.name === "gender" || element.name === "status") {
                 for (const chld of element.children) {
