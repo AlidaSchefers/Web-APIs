@@ -176,10 +176,11 @@ function getUserRequest() {
     let maxID
 
     for (const element of children) {
-        if (element.type === "number")
+        if (element.type === "number") {
             userID = element.value
             minID = element.min
-            maxID = element.min
+            maxID = element.max
+        }
     }
 
     if (userID === "")
@@ -233,10 +234,11 @@ function putUserDisplayCurrentData() {
     let minID
     let maxID
     for (const element of children) {
-        if (element.type === "number")
+        if (element.type === "number") { //need to h
             userID = element.value
             minID = element.min
-            maxID = element.min
+            maxID = element.max
+        }
     }
 
     if (userID === "")
@@ -253,15 +255,19 @@ function putUserDisplayCurrentData() {
 
     xhr.onload = () => {
         const rawRes = xhr.responseText
-        const parsedData = JSON.parse(rawRes) //for some reason can't use parsedData like I did in the GET method function??
+        const parsedData = JSON.parse(rawRes)
         //fill in all the boxes with the current user data 
         for (const element of children) {
+            // if ( (element.name === "name" || element.name === "email") && element.value.trim() === "")
             if (element.name === "name" || element.name === "email")
-                element.defaultValue = parsedData.data[element.name]
+                element.value = parsedData.data[element.name] //use .value instead of .defaultValue
+                    //with .defaultValue, if you 
+                //maybe add a clear button as we change the users. like "clear user data"
             if (element.name === "gender" || element.name === "status") {
                 for (const chld of element.children) {
                     if (chld.text === parsedData.data[element.name]) { //if the child option object's text is the same as the gender/status's value in the JSON that was read
                         chld.selected = "true" 
+                        // element.value = chld.value //can do this too
                         //with the 'selected' attribute, it is "option object"DOTselected. 
                         //This attribute is the select object equivalent of input object's .defaultValue
                     }
@@ -296,6 +302,8 @@ function putUserRequest() {
     xhr.setRequestHeader("Authorization", `Bearer ${myAuthorizationAPIToken}`);
     xhr.send(jsonPutUserData)
 
+    // console.log(`User ${userID}'s new data:`)
+    // console.log(putUserData)
 }
 
 function deleteUserRequest() {
