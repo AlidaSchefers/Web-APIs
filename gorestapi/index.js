@@ -175,7 +175,7 @@ function getUserRequest() {
     let minID
     let maxID
 
-    for (const element of children) {
+    for (const element of children) { //PROBLEM: entering ids like 3, 55, or 67 result in the invalid number alert (line 189) going off. Yet users 13 and 1000 work fine. ?
         if (element.type === "number") { //need to have the {} here! If they are not here, only userID = element.value is included in the if statement code block.
             userID = element.value
             minID = element.min
@@ -196,8 +196,8 @@ function getUserRequest() {
     xhr.onload = () => {
         const rawRes = xhr.responseText
         const parsedData = JSON.parse(rawRes)
-        // console.log(`User ${userID}'s data:`)
-        // console.log(parsedData)
+        console.log(`User ${userID}'s data:`)
+        console.log(parsedData.data)
     }
     xhr.setRequestHeader("Authorization", `Bearer ${myAuthorizationAPIToken}`);
 
@@ -211,8 +211,8 @@ function postUserRequest() {
         if (element.type !== "submit") //everything except the button
             newUserData[element.name] = element.value
     }
-    // console.log("New user's data:")
-    // console.log(newUserData)
+    console.log("New user's data:")
+    console.log(newUserData)
     
     const jsonNewUserData = JSON.stringify(newUserData)
 
@@ -303,8 +303,8 @@ function putUserRequest() {
     xhr.setRequestHeader("Authorization", `Bearer ${myAuthorizationAPIToken}`);
     xhr.send(jsonPutUserData)
 
-    // console.log(`User ${userID}'s new data:`)
-    // console.log(putUserData)
+    console.log(`User ${userID}'s new data:`)
+    console.log(putUserData)
 }
 
 function deleteUserRequest() {
